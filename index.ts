@@ -5,6 +5,13 @@ import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import multer from "multer";
 
+import { connectMongooseDB } from "@app/services/databaseService";
+
+// import uploadRoute from "@app/routes/v1/upload/upload";
+// import authRoute from "@app/routes/v1/auth";
+import UserController from "@app/resources/user/user.controller";
+
+
 const port = process.env.PORT || 5111;
 
 const app = express();
@@ -34,17 +41,22 @@ app.get("/", async (req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-import uploadRoute from "@app/routes/v1/upload";
-app.use("/v1/upload", upload.array("files"), uploadRoute);
+// app.use("/v1/upload", uploadRoute);
+
+// app.use(require("@app/routes/v1/auth"));\
+// app.use("/v1/auth", authRoute);
+
+const userController = new UserController();
+userController.initializeRoutes();
+app.use('/api/v1', userController.router);
 
 app.post("/test", upload.array("files"), (req, res) => {
-  // console.log("hello");
-  // console.log(req.body);
-  // console.log(req.files);
   res.json({
     message: "got it",
   });
 });
+
+connectMongooseDB();
 
 app.listen(port, () => {
   console.log(`Server listening to ${port}`);

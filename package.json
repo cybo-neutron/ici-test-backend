@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev:pm2": "NODE_ENV=development pm2 start index.ts --watch",
-    "dev": "NODE_ENV=development nodemon -r dotenv/config index.ts dotenv_config_path=.env.dev",
-    "dev:tsc": "NODE_ENV=development tsc -w && nodemon ./dist/index.js"
+    "dev": "NODE_ENV=development nodemon -r dotenv/config index.ts dotenv_config_path=.env",
+    "dev:tsc": "NODE_ENV=development tsc -w && nodemon ./dist/index.js",
+    "migrate:mongodb": "dotenv -e .env.dev -- npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
@@ -25,12 +26,14 @@
     "@prisma/client": "^5.5.2",
     "@types/cors": "^2.8.16",
     "@types/jsonwebtoken": "^9.0.2",
+    "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "bullmq": "^4.12.7",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.0",
     "multer": "1.4.5-lts.1",
     "prisma": "^5.5.2",
     "typescript": "^5.2.2"
